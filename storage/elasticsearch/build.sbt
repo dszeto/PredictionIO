@@ -38,6 +38,12 @@ pomExtra := childrenPomExtra.value
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
 
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("org.apache.http.**" ->
+    "org.apache.predictionio.shaded.org.apache.http.@1").inAll,
+  ShadeRule.rename("org.elasticsearch.client.**" ->
+    "org.apache.predictionio.shaded.org.elasticsearch.client.@1").inAll)
+
 // skip test in assembly
 test in assembly := {}
 
